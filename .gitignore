@@ -1,0 +1,13 @@
+.gradle/
+build/
+.kotlin/
+!gradle/wrapper/gradle-wrapper.jar
+
+# H2 database files and uploaded artwork
+data/
+storage/
+
+.idea/
+*.iml
+.vscode/
+.DS_Store
