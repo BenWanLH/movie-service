@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: movie-service
+  datasource:
+    url: jdbc:h2:file:./data/movies
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+server:
+  port: 8080

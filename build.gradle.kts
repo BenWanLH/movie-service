@@ -1,3 +1,5 @@
+import com.google.protobuf.gradle.id
+
 plugins {
 	kotlin("jvm") version "2.3.21"
 	kotlin("plugin.spring") version "2.3.21"
@@ -16,12 +18,40 @@ java {
 	}
 }
 
+sourceSets {
+	main {
+		proto {
+			srcDir("protos")
+		}
+	}
+}
+
+protobuf {
+	plugins {
+		id("grpc") {
+			artifact = "io.grpc:protoc-gen-grpc-java:1.84.1"
+		}
+		id("grpckt") {
+			artifact = "io.grpc:protoc-gen-grpc-kotlin:1.5.0:jdk8@jar"
+		}
+	}
+	generateProtoTasks {
+		all().forEach {
+			it.plugins {
+				id("grpckt")
+			}
+			it.builtins {
+				id("kotlin")
+			}
+		}
+	}
+}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-h2console")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-flyway")
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
@@ -30,6 +60,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
+	implementation("io.grpc:grpc-kotlin-stub:1.5.0")
+	implementation("com.google.protobuf:protobuf-kotlin")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
@@ -38,6 +71,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("io.mockk:mockk:1.14.11")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -55,4 +90,5 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	systemProperty("spring.profiles.active", "test")
 }

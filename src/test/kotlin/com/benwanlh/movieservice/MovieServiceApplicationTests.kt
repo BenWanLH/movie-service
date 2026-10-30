@@ -1,4 +1,4 @@
-package com.benwanlh.movie_service
+package com.benwanlh.movieservice
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
