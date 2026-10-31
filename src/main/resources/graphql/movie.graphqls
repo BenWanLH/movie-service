@@ -1,0 +1,63 @@
+extend type Query {
+    movies: [Movie!]!
+    movie(id: ID!): Movie
+}
+
+extend type Mutation {
+    createMovie(movieDetail: MovieDetail!): Movie!
+    updateMovie(id: ID!, movieDetail: MovieDetail!): Movie!
+    deleteMovie(id: ID!): Boolean!
+    addCredit(creditDetail: CreditDetail!): Credit!
+    deleteCredit(id: ID!): Boolean!
+}
+
+type Movie {
+    id: ID!
+    title: String!
+    synopsis: String
+    releaseYear: Int
+    runtimeMinutes: Int
+    genres: [Genre!]!
+    credits: [Credit!]!
+}
+
+type Credit {
+    id: ID!
+    person: Person
+    role: Role!
+    characterName: String
+}
+
+enum Genre {
+    ACTION
+    ADVENTURE
+    ANIMATION
+    COMEDY
+    CRIME
+    DOCUMENTARY
+    DRAMA
+    FAMILY
+    FANTASY
+    HORROR
+    MYSTERY
+    ROMANCE
+    SCIENCE_FICTION
+    THRILLER
+    WAR
+    WESTERN
+}
+
+input MovieDetail {
+    title: String!
+    synopsis: String
+    releaseYear: Int
+    runtimeMinutes: Int
+    genres:[Genre!]!
+}
+
+input CreditDetail {
+    movieId: ID!
+    personId: ID!
+    role: Role!
+    characterName: String
+}

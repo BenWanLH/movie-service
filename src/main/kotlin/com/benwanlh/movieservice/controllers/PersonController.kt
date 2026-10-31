@@ -4,7 +4,10 @@ import com.benwanlh.movieservice.dtos.PersonDetail
 import com.benwanlh.movieservice.enums.Role
 import com.benwanlh.movieservice.mappers.toModel
 import com.benwanlh.movieservice.models.Person
+import com.benwanlh.movieservice.repositories.entities.Credit
+import com.benwanlh.movieservice.services.CreditService
 import com.benwanlh.people.v1.PeopleServiceGrpcKt
+import com.benwanlh.people.v1.batchGetPeopleRequest
 import com.benwanlh.people.v1.createPersonRequest
 import com.benwanlh.people.v1.deletePersonRequest
 import com.benwanlh.people.v1.getPersonRequest
@@ -15,6 +18,7 @@ import com.benwanlh.people.v1.Role as RoleProto
 import io.grpc.Status
 import io.grpc.StatusException
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
@@ -22,6 +26,7 @@ import org.springframework.stereotype.Controller
 @Controller
 class PersonController(
     private val peopleStub: PeopleServiceGrpcKt.PeopleServiceCoroutineStub,
+    private val creditService: CreditService
 ) {
 
     @QueryMapping
@@ -65,7 +70,19 @@ class PersonController(
     @MutationMapping
     suspend fun deletePerson(@Argument id: Long): Boolean {
         peopleStub.deletePerson(deletePersonRequest { this.id = id })
+        creditService.deleteCreditsByPersonId(id)
         return true
+    }
+
+    @BatchMapping(field = "person")
+    suspend fun peopleForCredits(credits: List<Credit>): Map<Credit, Person?> {
+        val ids = credits.map { it.personId }.distinct()
+        val peopleById = peopleStub
+            .batchGetPeople(batchGetPeopleRequest { this.ids += ids })
+            .peopleList
+            .associate { it.id to it.toModel() }
+
+        return credits.associateWith { peopleById[it.personId] }
     }
 
 }
