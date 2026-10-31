@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 
 @Controller
@@ -38,5 +39,9 @@ class MovieController(
         movieService.deleteMovie(id)
         return true
     }
+
+    @SchemaMapping
+    fun artworkUrl(movie: Movie): String? =
+        movie.artworkFilename?.let { "/movies/${movie.id}/artwork?v=$it" }
 
 }

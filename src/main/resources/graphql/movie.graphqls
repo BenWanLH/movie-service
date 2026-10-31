@@ -19,6 +19,7 @@ type Movie {
     runtimeMinutes: Int
     genres: [Genre!]!
     credits: [Credit!]!
+    artworkUrl: String
 }
 
 type Credit {
