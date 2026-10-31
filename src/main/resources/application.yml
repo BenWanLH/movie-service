@@ -6,6 +6,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  grpc:
+    client:
+      channel:
+        people:
+          target: static://localhost:9090
+  graphql:
+    graphiql:
+      enabled: true
 
 server:
   port: 8080

@@ -63,6 +63,7 @@ dependencies {
 	implementation("io.grpc:grpc-kotlin-stub:1.5.0")
 	implementation("com.google.protobuf:protobuf-kotlin")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
