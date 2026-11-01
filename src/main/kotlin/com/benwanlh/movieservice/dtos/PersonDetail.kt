@@ -7,9 +7,9 @@ data class PersonDetail (
 
     val roles: List<Role>,
 
-    val birthDate: String?,
+    val birthDate: String? = null,
 
-    val bio: String?,
+    val bio: String? = null,
 
-    val photoUrl: String?,
+    val photoUrl: String? = null,
 )

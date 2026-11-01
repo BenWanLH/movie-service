@@ -8,7 +8,6 @@ import com.benwanlh.movieservice.mappers.toModel
 import com.benwanlh.movieservice.repositories.CreditRepository
 import com.benwanlh.movieservice.repositories.MovieRepository
 import com.benwanlh.movieservice.repositories.entities.Credit
-import com.benwanlh.people.v1.GetPersonRequest
 import com.benwanlh.people.v1.PeopleServiceGrpcKt
 import com.benwanlh.people.v1.getPersonRequest
 import jakarta.validation.Valid
@@ -51,9 +50,7 @@ class CreditService(
     }
 
     @Transactional
-    fun deleteCreditsByPersonId(personId: Long) {
-        creditRepository.deleteByPersonId(personId)
-    }
+    fun deleteCreditsByPersonId(personId: Long) = creditRepository.deleteByPersonId(personId)
 
     private fun String?.blankToNull(): String? = this?.trim()?.takeIf { it.isNotEmpty() }
 

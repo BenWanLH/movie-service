@@ -88,5 +88,4 @@ class PersonController(
 
         return credits.associateWith { peopleById[it.personId] }
     }
-
 }
