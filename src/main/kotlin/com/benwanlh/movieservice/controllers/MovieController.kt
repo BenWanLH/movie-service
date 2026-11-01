@@ -2,11 +2,9 @@ package com.benwanlh.movieservice.controllers
 
 import com.benwanlh.movieservice.dtos.MovieDetail
 import com.benwanlh.movieservice.exceptions.MovieNotFoundException
-import com.benwanlh.movieservice.repositories.entities.Credit
 import com.benwanlh.movieservice.repositories.entities.Movie
 import com.benwanlh.movieservice.services.MovieService
 import org.springframework.graphql.data.method.annotation.Argument
-import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -18,7 +16,9 @@ class MovieController(
 ) {
 
     @QueryMapping
-    fun movies(): List<Movie> = movieService.listAllMovies()
+    fun movies(@Argument title: String?): List<Movie> =
+        if(title.isNullOrBlank()) movieService.listAllMovies()
+        else movieService.searchMovies(title)
 
     @QueryMapping
     fun movie(@Argument id: Long) =

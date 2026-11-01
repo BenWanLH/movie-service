@@ -1,6 +1,6 @@
 type Query {
     person(id: ID!): Person
-    people(roles: [Role!]): [Person!]!
+    people(roles: [Role!], name: String): [Person!]!
 }
 
 type Mutation {

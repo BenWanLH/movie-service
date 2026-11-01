@@ -1,5 +1,5 @@
 extend type Query {
-    movies: [Movie!]!
+    movies(title: String): [Movie!]!
     movie(id: ID!): Movie
 }
 

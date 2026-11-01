@@ -38,6 +38,8 @@ class MovieService(
     fun getMovieById(id: Long): Movie =
         movieRepository.findByIdOrNull(id) ?: throw MovieNotFoundException(id)
 
+    fun searchMovies(title: String): List<Movie> = movieRepository.findByTitleContainingIgnoreCase(title.trim())
+
     fun listAllMovies(): List<Movie> = movieRepository.findAll()
 
     fun createMovie(@Valid movieDetail: MovieDetail): Movie = movieRepository.save(Movie(

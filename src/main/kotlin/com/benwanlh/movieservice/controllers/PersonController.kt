@@ -12,6 +12,7 @@ import com.benwanlh.people.v1.createPersonRequest
 import com.benwanlh.people.v1.deletePersonRequest
 import com.benwanlh.people.v1.getPersonRequest
 import com.benwanlh.people.v1.listPeopleRequest
+import com.benwanlh.people.v1.searchPeopleRequest
 import com.benwanlh.people.v1.updatePersonRequest
 import com.benwanlh.people.v1.Role as RoleProto
 
@@ -38,8 +39,11 @@ class PersonController(
         }
 
     @QueryMapping
-    suspend fun people(@Argument roles: List<Role>?): List<Person> {
-        val people = peopleStub.listPeople(listPeopleRequest { }).peopleList.map { it.toModel() }
+    suspend fun people(@Argument roles: List<Role>?, @Argument name: String?): List<Person> {
+        val people = if(name.isNullOrBlank())
+            peopleStub.listPeople(listPeopleRequest { }).peopleList.map { it.toModel() }
+        else
+            peopleStub.searchPeople(searchPeopleRequest { this.name = name }).peopleList.map { it.toModel() }
 
         if (roles.isNullOrEmpty()) return people
 
