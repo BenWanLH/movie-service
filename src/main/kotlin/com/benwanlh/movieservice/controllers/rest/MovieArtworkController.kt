@@ -1,4 +1,4 @@
-package com.benwanlh.movieservice.controllers
+package com.benwanlh.movieservice.controllers.rest
 
 import com.benwanlh.movieservice.exceptions.ArtworkNotFoundException
 import com.benwanlh.movieservice.exceptions.InvalidArtworkException

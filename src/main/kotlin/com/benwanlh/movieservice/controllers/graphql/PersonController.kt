@@ -1,4 +1,4 @@
-package com.benwanlh.movieservice.controllers
+package com.benwanlh.movieservice.controllers.graphql
 
 import com.benwanlh.movieservice.dtos.PersonDetail
 import com.benwanlh.movieservice.enums.Role

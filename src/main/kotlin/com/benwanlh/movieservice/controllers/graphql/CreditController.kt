@@ -1,4 +1,4 @@
-package com.benwanlh.movieservice.controllers
+package com.benwanlh.movieservice.controllers.graphql
 
 import com.benwanlh.movieservice.dtos.CreditDetail
 import com.benwanlh.movieservice.repositories.entities.Credit
