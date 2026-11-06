@@ -1,6 +1,9 @@
 spring:
   datasource:
     url: jdbc:h2:mem:movies-test;DB_CLOSE_DELAY=-1
+  grpc:
+    server:
+      port: 0
 
 artwork:
   directory: ./build/test-artwork

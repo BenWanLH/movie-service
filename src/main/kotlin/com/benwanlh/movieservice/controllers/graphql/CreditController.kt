@@ -1,12 +1,14 @@
 package com.benwanlh.movieservice.controllers.graphql
 
 import com.benwanlh.movieservice.dtos.CreditDetail
+import com.benwanlh.movieservice.models.PersonStub
 import com.benwanlh.movieservice.repositories.entities.Credit
 import com.benwanlh.movieservice.repositories.entities.Movie
 import com.benwanlh.movieservice.services.CreditService
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.MutationMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 import kotlin.collections.get
 
@@ -14,6 +16,9 @@ import kotlin.collections.get
 class CreditController(
     private val creditService: CreditService
 ) {
+    @SchemaMapping(typeName = "Credit", field = "person")
+    fun person(credit: Credit) = PersonStub(credit.personId)
+
     @MutationMapping
     suspend fun addCredit(@Argument creditDetail: CreditDetail) = creditService.addCredit(creditDetail)
 
@@ -28,5 +33,4 @@ class CreditController(
         val creditsByMovieId = creditService.getCreditsForMovies(movies.map { it.id!! }).groupBy { it.movieId }
         return movies.associateWith { creditsByMovieId[it.id] ?: emptyList() }
     }
-
 }

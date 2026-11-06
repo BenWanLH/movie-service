@@ -11,6 +11,8 @@ spring:
       channel:
         people:
           target: static://localhost:9090
+    server:
+      port: 9091
   graphql:
     graphiql:
       enabled: true

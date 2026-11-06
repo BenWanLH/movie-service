@@ -1,9 +1,9 @@
-extend type Query {
+type Query {
     movies(title: String): [Movie!]!
     movie(id: ID!): Movie
 }
 
-extend type Mutation {
+type Mutation {
     createMovie(movieDetail: MovieDetail!): Movie!
     updateMovie(id: ID!, movieDetail: MovieDetail!): Movie!
     deleteMovie(id: ID!): Boolean!
@@ -27,6 +27,10 @@ type Credit {
     person: Person
     role: Role!
     characterName: String
+}
+
+type Person @key(fields: "id", resolvable: false) {
+    id: ID!
 }
 
 enum Genre {
@@ -61,4 +65,11 @@ input CreditDetail {
     personId: ID!
     role: Role!
     characterName: String
+}
+
+enum Role {
+    ACTOR
+    DIRECTOR
+    WRITER
+    CREATOR
 }
